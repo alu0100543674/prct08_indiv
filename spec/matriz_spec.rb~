@@ -35,13 +35,11 @@ describe Matriz do
      end
   end
 
-
-     it " Debe realizar la suma de matrices " do
-       sum = @matriz1 + @matriz2
-       @matriz5 = Matriz.new([[2, 2], [2, 2]])
-       sum.should eq(@matriz5)
+  describe " Suma " do
+     it " Suma de matrices " do
+       #sum = @matriz1 + @matriz2
+       #@matriz5 = Matriz.new([[2, 2], [2, 2]])
+       (@matriz1 + @matriz2).matriz.should  == "[[2, 2], [2, 2]]"
      end
- 
-
-
+  end
 end
