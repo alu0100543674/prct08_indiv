@@ -1,26 +1,54 @@
 require 'matrix'
 class Matriz
-   attr_reader :filas, :columnas, :matriz
+   attr_reader :filas, :columnas
+
+   # Inicializamos la matriz a 0.
+
+   def initialize(filas, columnas)
+      raise ArgumentError, 'Tamaño matriz ERROR' unles (filas.is_a? Integer) && (columnas.is_a? Integer) && (filas > 0) && (columnas > 0)
+      @filas, @columnas = columnas, filas 
+      for  i in (0...@filas)
+         @matriz[i] = []
+         for j in (0...@columnas)
+            @matriz[i][j] = 0
+         end
+      end
+   end
  
-   def initialize(matriz)
-      @matriz = matriz
-      @filas = matriz.size;
-      @columnas = matriz[0].size
+   def filas
+      return @filas
+   end
+  
+   def columnas
+      return @columnas
+   end
+  
+   def get_matriz(i, j)
+      return @matriz[i][j]
+   end
+
+   def set_matriz(i, j, aux)
+     return @matriz[i][j] = aux
    end
 
    def +(other)
-    i = 0
-    j = 0
-    suma = @matriz
-    while i < @filas      
-      while j < @columnas
-        suma[i][j] = suma[i][j] + other.matriz[i][j]
-        j += 1
-      end
-      i += 1
-      j = 0
-    end
-    Matriz.new(suma)
+     if ((other.instance_of?(Matriz) == true) && (@columnas == other.columnas) && (@filas == other.filas))
+        resul = Matriz.new(@columnas, @filas)
+        i = 0
+        while (j < @columnas) do
+           j = 0
+           while (j < @filas) do
+              sum = 0
+              sum = @matriz[i][j] + other.get_matriz(i, j)
+   	      resul.set_matriz(i, j, resul)
+              j = j + 1
+        end
+        i = i + 1
+     end
+     return resul
    end
+
+  end
+
 
 end

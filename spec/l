@@ -1,14 +1,14 @@
-   def +(other)
-    i = 0
-    j = 0
-    suma = @matriz
-    while i < @filas      
-      while j < @columnas
-        suma[i][j] = suma[i][j] + other.matriz[i][j]
-        j += 1
+  @matriz1 = Matriz.new(2, 2, 1, 1, 1, 1)
+     @matriz2 = Matriz.new(2, 2, 1, 1, 1, 1)
+     @matrizsuma = Matriz.new(2, 2, 2, 2, 2, 2)
+
+   def initialize(filas, columnas)
+      # raise ArgumentError, 'Tamaño matriz ERROR' unles (filas.is_a? Integer) && (columnas.is_a? Integer) && (filas > 0) && (columnas > 0)
+      @filas, @columnas = columnas, filas 
+      for  i in (0...@filas)
+         @matriz[i] = []
+         for j in (0...@columnas)
+            @matriz[i][j] = 0
+         end
       end
-      i += 1
-      j = 0
-    end
-    Matriz.new(suma)
    end
