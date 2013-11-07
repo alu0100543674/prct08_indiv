@@ -1,54 +1,90 @@
 require 'matrix'
 class Matriz
-   attr_reader :filas, :columnas
+  attr_reader :filas, :columnas, :matriz
 
-   # Inicializamos la matriz a 0.
-
-   def initialize(filas, columnas)
-      raise ArgumentError, 'Tamaño matriz ERROR' unles (filas.is_a? Integer) && (columnas.is_a? Integer) && (filas > 0) && (columnas > 0)
-      @filas, @columnas = columnas, filas 
-      for  i in (0...@filas)
-         @matriz[i] = []
-         for j in (0...@columnas)
-            @matriz[i][j] = 0
-         end
-      end
-   end
- 
-   def filas
-      return @filas
-   end
-  
-   def columnas
-      return @columnas
-   end
-  
-   def get_matriz(i, j)
-      return @matriz[i][j]
-   end
-
-   def set_matriz(i, j, aux)
-     return @matriz[i][j] = aux
-   end
-
-   def +(other)
-     if ((other.instance_of?(Matriz) == true) && (@columnas == other.columnas) && (@filas == other.filas))
-        resul = Matriz.new(@columnas, @filas)
-        i = 0
-        while (j < @columnas) do
-           j = 0
-           while (j < @filas) do
-              sum = 0
-              sum = @matriz[i][j] + other.get_matriz(i, j)
-   	      resul.set_matriz(i, j, resul)
-              j = j + 1
-        end
-        i = i + 1
-     end
-     return resul
-   end
-
+  def initialize(filas, columnas, matriz)
+     @filas, @columnas = filas, columnas
+     @matriz = Array.new(matriz)
   end
 
+  def filas
+     @filas
+  end
+  
+  def columnas
+     @columnas
+  end
+
+  def to_s
+     aux = ""
+     i = 0
+     while (i < @filas)
+       j = 0
+       while (j < @columnas)
+           aux +="#{matriz[i][j]}\t"
+           j += 1
+       end
+       aux += "\n"
+       i += 1
+     end
+     aux
+   end
+
+
+   def +(other)
+     raise ArgumentError, 'No se puede sumar' unless @filas == other.filas && @columnas == other.columnas
+     col = Array.new(0)
+     for i in 0...filas do
+       fil = Array.new(0)
+       for j in 0...columnas do
+         fil << matriz[i][j] + other.matriz[i][j]
+       end
+       col << fil
+      end
+      Matriz.new(@filas, @columnas, col)
+   end
+
+   def -(other)
+      raise ArgumentError, 'No se puede restar' unless @filas == other.filas && @columnas == other.columnas
+        col = Array.new(0)
+        for i in 0...filas do
+          fil = Array.new(0)
+          for j in 0...columnas do
+            fil << matriz[i][j] - other.matriz[i][j]
+          end
+          col << fil
+        end
+    
+     Matriz.new(@filas, @columnas, col)
+  end
+
+  def *(other)
+     raise ArgumentError, 'No se pueden multiplicar' unless @columnas == other.filas
+     col = Array.new(0)
+     for i in 0...filas do
+        fil = Array.new(0)
+        for j in 0...other.columnas do
+           aux = 0
+           for k in 0...columnas do
+              aux += matriz[i][k] * other.matriz[k][j]
+           end
+           fil << aux
+        end
+        col << fil
+      end
+      Matriz.new(@filas, other.columnas, col)
+  end
+ 
+   def trasponer
+     elemento = Array.new(0)
+     for i in 0...colum do
+       fila = Array.new(0)
+       for j in 0...filas do
+         fila << pos[j][i]
+       end
+       elemento << fila
+     end
+     Matriz.new(@ncol, @nfil, elemento)
+   end
 
 end
